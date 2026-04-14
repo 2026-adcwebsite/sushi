@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Menu — Sakura Sushi Tiranë</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #1a0f0a;
+    --red: #c8102e;
+    --red-dark: #9e0d24;
+    --bg: #faf6f0;
+    --bg2: #f2ebe0;
+    --gold: #b8860b;
+    --text: #1a0f0a;
+    --muted: #7a6a5a;
+    --white: #ffffff;
+    --border: rgba(0,0,0,0.08);
+    --card-bg: #ffffff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 24px;
+    background: rgba(250,246,240,0.97);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .logo {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+    text-decoration: none;
+  }
+
+  .logo-jp {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 20px;
+    color: var(--red);
+    letter-spacing: 4px;
+  }
+
+  .logo-en {
+    font-size: 9px;
+    letter-spacing: 6px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .back-btn {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    transition: all 0.2s;
+  }
+
+  .back-btn:hover { color: var(--text); border-color: rgba(0,0,0,0.2); }
+
+  .reserve-btn {
+    background: var(--red);
+    color: white;
+    text-decoration: none;
+    font-size: 13px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: background 0.2s;
+  }
+
+  .reserve-btn:hover { background: var(--red-dark); }
+
+  /* PAGE HEADER */
+  .page-header {
+    padding: 60px 24px 40px;
+    max-width: 1100px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .page-tag {
+    font-size: 11px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 12px;
+  }
+
+  .page-title {
+    font-family: 'Noto Serif JP', serif;
+    font-size: clamp(32px, 7vw, 56px);
+    font-weight: 300;
+    margin-bottom: 12px;
+    color: var(--text);
+  }
+
+  .page-sub {
+    font-size: 15px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* CATEGORY TABS */
+  .cat-tabs-wrap {
+    position: sticky;
+    top: 57px;
+    z-index: 50;
+    background: rgba(250,246,240,0.97);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 16px;
+  }
+
+  .cat-tabs {
+    display: flex;
+    gap: 0;
+    max-width: 1100px;
+    margin: 0 auto;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .cat-tabs::-webkit-scrollbar { display: none; }
+
+  .cat-tab {
+    flex-shrink: 0;
+    padding: 14px 18px;
+    font-size: 13px;
+    color: var(--muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .cat-tab:hover { color: var(--text); }
+  .cat-tab.active { color: var(--red); border-bottom-color: var(--red); }
+
+  /* MENU CONTENT */
+  .menu-content {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  .menu-category {
+    margin-bottom: 60px;
+    scroll-margin-top: 120px;
+  }
+
+  .cat-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid var(--bg2);
+  }
+
+  .cat-photo {
+    width: 100%;
+    height: 200px;
+    border-radius: 14px;
+    overflow: hidden;
+    margin-bottom: 24px;
+    position: relative;
+  }
+
+  .cat-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .cat-photo-label {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+    padding: 20px 20px 14px;
+    color: white;
+    font-family: 'Noto Serif JP', serif;
+    font-size: 22px;
+    font-weight: 300;
+  }
+
+  .cat-emoji {
+    font-size: 30px;
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(200,16,46,0.07);
+    border-radius: 14px;
+    flex-shrink: 0;
+  }
+
+  .cat-info .cat-name {
+    font-family: 'Noto Serif JP', serif;
+    font-size: clamp(22px, 4vw, 32px);
+    font-weight: 300;
+    color: var(--text);
+    line-height: 1.1;
+  }
+
+  .cat-info .cat-desc {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  /* ITEMS GRID */
+  .items-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 12px;
+  }
+
+  .menu-item {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    transition: box-shadow 0.2s, transform 0.15s;
+    cursor: default;
+  }
+
+  .menu-item:hover {
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    transform: translateY(-1px);
+  }
+
+  .item-emoji {
+    font-size: 28px;
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(200,16,46,0.06);
+    border-radius: 12px;
+    flex-shrink: 0;
+  }
+
+  .item-body { flex: 1; min-width: 0; }
+
+  .item-name {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 4px;
+    line-height: 1.3;
+  }
+
+  .item-desc {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.5;
+    margin-bottom: 10px;
+  }
+
+  .item-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .item-price {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 17px;
+    color: var(--red);
+    font-weight: 400;
+    white-space: nowrap;
+  }
+
+  .item-tags {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 100px;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+
+  .tag-spicy { background: rgba(255,100,50,0.12); color: #d94f20; }
+  .tag-veg { background: rgba(34,197,94,0.1); color: #16a34a; }
+  .tag-raw { background: rgba(59,130,246,0.1); color: #2563eb; }
+  .tag-hot { background: rgba(245,158,11,0.1); color: #b45309; }
+  .tag-popular { background: rgba(200,16,46,0.1); color: #c8102e; }
+  .tag-new { background: rgba(139,92,246,0.1); color: #7c3aed; }
+  .tag-gluten { background: rgba(245,158,11,0.1); color: #b45309; }
+
+  /* LEGEND */
+  .legend {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 40px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  /* SPECIAL SETS */
+  .sets-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+  }
+
+  .set-card {
+    background: linear-gradient(135deg, rgba(200,16,46,0.04), rgba(184,134,11,0.03));
+    border: 1px solid rgba(200,16,46,0.12);
+    border-radius: 16px;
+    padding: 22px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .set-card::before {
+    content: attr(data-emoji);
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    font-size: 70px;
+    opacity: 0.1;
+  }
+
+  .set-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(200,16,46,0.1);
+    color: var(--red);
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 100px;
+    margin-bottom: 12px;
+    letter-spacing: 0.5px;
+    font-weight: 500;
+  }
+
+  .set-name {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 20px;
+    font-weight: 300;
+    margin-bottom: 8px;
+    color: var(--text);
+  }
+
+  .set-includes {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+
+  .set-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .set-price {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 24px;
+    color: var(--red);
+  }
+
+  .set-pieces {
+    font-size: 12px;
+    color: var(--muted);
+    background: var(--bg2);
+    padding: 4px 10px;
+    border-radius: 100px;
+  }
+
+  /* DRINKS */
+  .drinks-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 10px;
+  }
+
+  .drink-item {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    transition: box-shadow 0.2s;
+  }
+
+  .drink-item:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.07); }
+
+  .drink-emoji { font-size: 28px; }
+
+  .drink-name { font-size: 14px; font-weight: 500; color: var(--text); }
+  .drink-detail { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .drink-price { font-size: 15px; color: var(--red); margin-top: 4px; font-family: 'Noto Serif JP', serif; }
+
+  /* ALLERGY NOTE */
+  .allergy-note {
+    background: rgba(184,134,11,0.06);
+    border: 1px solid rgba(184,134,11,0.2);
+    border-radius: 12px;
+    padding: 16px 20px;
+    font-size: 13px;
+    color: #7a5c10;
+    line-height: 1.6;
+    margin-top: 40px;
+    text-align: center;
+  }
+
+  /* MOBILE */
+  @media (max-width: 640px) {
+    .items-grid { grid-template-columns: 1fr; }
+    .sets-grid { grid-template-columns: 1fr; }
+    .drinks-grid { grid-template-columns: 1fr 1fr; }
+    .page-header { padding: 40px 20px 28px; }
+    .menu-content { padding: 24px 20px 60px; }
+    .menu-category { margin-bottom: 48px; }
+    .cat-tab { padding: 12px 14px; font-size: 12px; }
+    .reserve-btn { display: none; }
+    .back-btn { font-size: 12px; padding: 7px 12px; }
+    .legend { gap: 10px; }
+    .legend-item { font-size: 11px; }
+    .cat-photo { height: 150px; }
+  }
+
+  @media (max-width: 400px) {
+    .drinks-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="logo">
+    <span class="logo-jp">桜</span>
+    <span class="logo-en">Sakura Sushi</span>
+  </a>
+  <div class="nav-right">
+    <a href="index.html" class="back-btn">← Kryefaqja</a>
+    <a href="index.html#rezervim" class="reserve-btn">Rezervo</a>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="page-tag">🍣 Kuzhinë Japoneze Autentike</div>
+  <h1 class="page-title">Menu e Plotë</h1>
+  <p class="page-sub">Çdo pjatë gatuhet me produkte të freskëta dhe teknika japoneze tradicionale</p>
+</div>
+
+<!-- CATEGORY TABS -->
+<div class="cat-tabs-wrap">
+  <div class="cat-tabs">
+    <a href="#maki" class="cat-tab active">🌀 Maki</a>
+    <a href="#nigiri" class="cat-tab">🍤 Nigiri</a>
+    <a href="#temaki" class="cat-tab">🌯 Temaki</a>
+    <a href="#sashimi" class="cat-tab">🐟 Sashimi</a>
+    <a href="#ramen" class="cat-tab">🍜 Ramen</a>
+    <a href="#gyoza" class="cat-tab">🥟 Gyoza</a>
+    <a href="#sets" class="cat-tab">🎁 Sete</a>
+    <a href="#desserts" class="cat-tab">🍡 Ëmbëlsira</a>
+    <a href="#drinks" class="cat-tab">🍵 Pije</a>
+  </div>
+</div>
+
+<!-- MENU CONTENT -->
+<div class="menu-content">
+
+  <!-- LEGEND -->
+  <div class="legend">
+    <div class="legend-item"><span class="tag tag-spicy">🌶 Pikante</span></div>
+    <div class="legend-item"><span class="tag tag-veg">🌿 Vegjetarian</span></div>
+    <div class="legend-item"><span class="tag tag-raw">🐟 I papjekur</span></div>
+    <div class="legend-item"><span class="tag tag-popular">❤️ Popullor</span></div>
+    <div class="legend-item"><span class="tag tag-new">✨ I ri</span></div>
+    <div class="legend-item"><span class="tag tag-hot">🔥 I nxehtë</span></div>
+  </div>
+
+  <!-- MAKI -->
+  <div class="menu-category" id="maki">
+    <div class="cat-photo">
+      <img src="https://images.unsplash.com/photo-1617196034183-421b4040ed20?w=1200&q=80" alt="Maki Rolls" loading="lazy">
+      <div class="cat-photo-label">Maki Rolls</div>
+    </div>
+    <div class="cat-header">
+      <div class="cat-emoji">🌀</div>
+      <div class="cat-info">
+        <div class="cat-name">Maki Rolls</div>
+        <div class="cat-desc">Roll klasik japonez i mbështjellë me nori dhe oriz</div>
+      </div>
+    </div>
+    <div class="items-grid">
+      <div class="menu-item">
+        <div class="item-emoji">🐟</div>
+        <div class="item-body">
+          <div class="item-name">Salmon Maki</div>
+          <div class="item-desc">Salmon i freskët, oriz japonez, nori • 6 copë</div>
+          <div class="item-footer">
+            <div class="item-price">850 L</div>
+            <div class="item-tags"><span class="tag tag-raw">🐟 I papjekur</span><span class="tag tag-popular">❤️ Popullor</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="menu-item">
+        <div class="item-emoji">🦞</div>
+        <div class="item-body">
+          <div class="item-name">Ebi Maki</div>
+          <div class="item-desc">Karkalec i zier, avokado, mayonezë japoneze • 6 copë</div>
+          <div class="item-footer">
+            <div class="item-price">900 L</div>
+            <div class="item-tags"><span class="tag tag-popular">❤️ Popullor</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="menu-item">
+        <div class="item-emoji">🥑</div>
+        <div class="item-body">
+          <div class="item-name">Avocado Maki</div>
+          <div class="item-desc">Avokado i freskët, oriz, nori • 6 copë</div>
+          <div class="item-footer">
+            <div class="item-price">700 L</div>
+            <div class="item-tags"><span class="tag tag-veg">🌿 Vegjetarian</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="menu-item">
+        <div class="item-emoji">🐠</div>
+        <div class="item-body">
+          <div class="item-name">Tuna Maki</div>
+          <div class="item-desc">Tuna e kuqe, oriz japonez, nori • 6 copë</div>
+          <div class="item-footer">
+            <div class="item-price">900 L</div>
+            <div class="item-tags"><span class="tag tag-raw">🐟 I papjekur</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="menu-item">
+        <div class="item-emoji">🌶</div>
+        <div class="item-body">
+          <div class="item-name">Spicy Salmon Roll</div>
+          <div class="item-desc">Salmon, salcë sriracha, avokado, tobiko • 8 copë</div>
+          <div class="item-footer">
+            <div class="item-price">1,100 L</div>
+            <div class="item-tags"><span class="tag tag-spicy">🌶 Pikante</span><span class="tag tag-popular">❤️ Popullor</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="menu-item">
+        <div class="item-emoji">🦀</div>
+        <div class="item-body">
+          <div class="item-name">California Roll</div>
+          <div class="item-desc">Gaforre, avokado, kastravec, masago • 8 copë</div>
+          <div class="item-footer">
+            <div class="item-price">950 L</div>
+            <div class="item-tags"><span class="tag tag-popular">❤️ Popullor</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="menu-item">
+        <div class="item-emoji">🌈</div>
+        <div class="item-body">
+          <div class="item-name">Rainbow Roll</div>
+          <div class="item-desc">California roll i mbuluar me salmon, tuna, avokado • 8 copë</div>
+          <div class="item-footer">
+            <div class="item-price">1,400 L</div>
+            <div class="item-tags"><span class="tag tag-popular">❤️ Popullor</span><span class="tag tag-new">✨ I ri</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="menu-item">
+        <div class="item-emoji">🥒</div>
+        <div class="item-body">
+          <div class="item-name">Kappa Maki</div>
+          <div class="item-desc">Kastravec i freskët, oriz, nori • 6 copë</div>
+          <div class="item-footer">
+            <div class="item-price">600 L</div>
+            <div class="item-tags"><span class="tag tag-veg">🌿 Vegjetarian</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NIGIRI -->
+  <div class="menu-category" id="nigiri">
+    <div class="cat-photo">
+      <img src="https://images.unsplash.com/photo-1586190848861-99aa4a171e90?w=1200&q=80" alt="Nigiri" loading="lazy">
+      <div class="cat-photo-label">Nigiri</div>
+    </div>
+    <div class="cat-header">
+      <div class="cat-emoji">🍤</div>
+      <div class="cat-info">
+        <div class="cat-name">Nigiri</div>
+        <div class="cat-desc">Peshk i freskët mbi oriz japonez të modeluar me dorë</div>
+      </div>
+    </div>
+    <div class="items-grid">
+      <div class="menu-item">
+        <div class="item-emoji">🐟</div>
+        <div class="item-body">
+          <div class="item-name">Sake Nigiri — Salmon</div>
+          <div class="item-desc">Salmon atlantik i freskët, oriz japonez • 2 copë</div>
+          <div class="item-footer">
+            <div class="item-price">650 L</div>
+            <div class="item-tags"><span class="tag tag-raw">🐟 I papjekur</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="menu-item">
+        <div class="item-emoji">🐡</div>
+        <div class="item-body">
+          <div class="item-name">Maguro Nigiri — Tuna</div>
+          <div class="item-desc">Tuna blu e freskët, oriz japonez • 2 copë</div>
+          <div class="item-footer">
+            <div class="item-price">700 L</div>
+            <div class="item-tags"><span class="tag tag-raw">🐟 I papjekur</span><span class="tag tag-popular">❤️ Popullor</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="menu-item">
+        <div class="item-emoji">🦞</div>
+        <div class="item-body">
+          <div class="item-name">Ebi Nigiri — Karkalec</div>
+          <div class="item-desc">Karkalec tigri i zier, oriz japonez • 2 copë</div>
+          <div class="item-footer">
+            <div class="item-price">700 L</div>
+            <div class="item-tags"></div>
+          </div>
+        </div>
+      </div>
+      <div class="menu-item">
+        <div class="item-emoji">🐙</div>
+        <div class="item-body">
+          <div class="item-name">Tako Nigiri — Oktapod</div>
+          <div class="item-desc">Oktapod i zier, oriz japonez • 2 copë</div>
+          <div class="item-footer">
+            <div class="item-price">750 L</div>
+            <div class="item-tags"></div>
+          </div>
+        </div>
+      </div>
+      <div class="menu-item">
+        <div class="item-emoji">🔥</div>
+        <div class="item-body">
+          <div class="item-name">Aburi Salmon Nigiri</div>
+          <div class="item-desc">Salmon i pjekur me flakë, salcë miso, limon • 2 copë</div>
+          <div class="item-footer">
+            <div class="item-price">800 L</div>
+            <div class="item-tags"><span class="tag tag-hot">🔥 I nxehtë</span><span class="tag tag-new">✨ I ri</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="menu-item">
+        <div class="item-emoji">🧀</div>
+        <div class="item-body">
+          <div class="item-name">Tamago Nigiri — Vezë</div>
+          <div class="item-desc">Omëletë e ëmbël japoneze, oriz • 2 copë</div>
+          <div class="item-footer">
+            <div class="item-price">550 L</div>
+            <div class="item-tags"><span class="tag tag-veg">🌿 Vegjetarian</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TEMAKI -->
+  <div class="menu-category" id="temaki">
+    <div class="cat-photo">
+      <img src="https://images.unsplash.com/photo-1534482421-64566f976cfa?w=1200&q=80" alt="Temaki" loading="lazy">
+      <div class="cat-photo-label">Temaki — Hand Roll</div>
+    </div>
+    <div class="cat-header">
+      <div class="cat-emoji">🌯</div>
+      <div class="cat-info">
+        <div class="cat-name">Temaki — Hand Roll</div>
+        <div class="cat-desc">Roll kon i mbajtur me dorë, plot me shijë</div>
+      </div>
+    </div>
+    <div class="items-grid">
+      <div class="menu-item">
+        <div class="item-emoji">🐟</div>
+        <div class="item-body">
+          <div class="item-name">Salmon Temaki</div>
+          <div class="item-desc">Salmon i freskët, avokado, oriz, mayonezë spicy</div>
+          <div class="item-footer">
+            <div class="item-price">750 L</div>
+            <div class="item-tags"><span class="tag tag-popular">❤️ Popullor</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="menu-item">
+        <div class="item-emoji">🦞</div>
+        <div class="item-body">
+          <div class="item-name">Ebi Tempura Temaki</div>
+          <div class="item-desc">Karkalec tempura, kastravec, salcë unagi</div>
+          <div class="item-footer">
+            <div class="item-price">800 L</div>
+            <div class="item-tags"><span class="tag tag-hot">🔥 I nxehtë</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="menu-item">
+        <div class="item-emoji">🥑</div>
+        <div class="item-body">
+          <div class="item-name">Veggie Temaki</div>
+          <div class="item-desc">Avokado, kastravec, karotë, oriz, nori</div>
+          <div class="item-footer">
+            <div class="item-price">650 L</div>
+            <div class="item-tags"><span class="tag tag-veg">🌿 Vegjetarian</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="menu-item">
+        <div class="item-emoji">🌶</div>
+        <div class="item-body">
+          <div class="item-name">Spicy Tuna Temaki</div>
+          <div class="item-desc">Tuna, sriracha mayo, tobiko, kastravec</div>
+          <div class="item-footer">
+            <div class="item-price">850 L</div>
+            <div class="item-tags"><span class="tag tag-spicy">🌶 Pikante</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SASHIMI -->
+  <div class="menu-category" id="sashimi">
+    <div class="cat-photo">
+      <img src="https://images.unsplash.com/photo-1580822184713-fc5400e7fe10?w=1200&q=80" alt="Sashimi" loading="lazy">
+      <div class="cat-photo-label">Sashimi</div>
+    </div>
+    <div class="cat-header">
+      <div class="cat-emoji">🐟</div>
+      <div class="cat-info">
+        <div class="cat-name">Sashimi</div>
+        <div class="cat-desc">Peshk ultra i freskët, prerë me precizion japonez, pa oriz</div>
+      </div>
+    </div>
+    <div class="items-grid">
+      <div class="menu-item">
+        <div class="item-emoji">🐟</div>
+        <div class="item-body">
+          <div class="item-name">Salmon Sashimi</div>
+          <div class="item-desc">Salmon atlantik i freskët • 5 feta</div>
+          <div class="item-footer">
+            <div class="item-price">1,100 L</div>
+            <div class="item-tags"><span class="tag tag-raw">🐟 I papjekur</span><span class="tag tag-popular">❤️ Popullor</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="menu-item">
+        <div class="item-emoji">🐡</div>
+        <div class="item-body">
+          <div class="item-name">Tuna Sashimi</div>
+          <div class="item-desc">Tuna blu premium • 5 feta</div>
+          <div class="item-footer">
+            <div class="item-price">1,200 L</div>
+            <div class="item-tags"><span class="tag tag-raw">🐟 I papjekur</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="menu-item">
+        <div class="item-emoji">🐙</div>
+        <div class="item-body">
+          <div class="item-name">Tako Sashimi</div>
+          <div class="item-desc">Oktapod i zier, i prerë hollë • 5 feta</div>
+          <div class="item-footer">
+            <div class="item-price">1,050 L</div>
+            <div class="item-tags"></div>
+          </div>
+        </div>
+      </div>
+      <div class="menu-item">
+        <div class="item-emoji">⭐</div>
+        <div class="item-body">
+          <div class="item-name">Sashimi Deluxe</div>
+          <div class="item-desc">Miks salmon, tuna, oktapod, karkalec • 12 feta</div>
+          <div class="item-footer">
+            <div class="item-price">2,400 L</div>
+            <div class="item-tags"><span class="tag tag-popular">❤️ Popullor</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RAMEN -->
+  <div class="menu-category" id="ramen">
+    <div class="cat-photo">
+      <img src="https://images.unsplash.com/photo-1569050467447-ce54b3bbc37d?w=1200&q=80" alt="Ramen" loading="lazy">
+      <div class="cat-photo-label">Ramen</div>
+    </div>
+    <div class="cat-header">
+      <div class="cat-emoji">🍜</div>
+      <div class="cat-info">
+        <div class="cat-name">Ramen</div>
+        <div class="cat-desc">Supë japoneze me lëng të pasur të zier për orë të tëra</div>
+      </div>
+    </div>
+    <div class="items-grid">
+      <div class="menu-item">
+        <div class="item-emoji">🍖</div>
+        <div class="item-body">
+          <div class="item-name">Tonkotsu Ramen</div>
+          <div class="item-desc">Lëng derri, fidanë, vezë soft-boiled, chashu, nori</div>
+          <div class="item-footer">
+            <div class="item-price">1,400 L</div>
+            <div class="item-tags"><span class="tag tag-hot">🔥 I nxehtë</span><span class="tag tag-popular">❤️ Popullor</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="menu-item">
+        <div class="item-emoji">🍗</div>
+        <div class="item-body">
+          <div class="item-name">Shoyu Ramen</div>
+          <div class="item-desc">Lëng pule, salcë soje, fidanë, bambu, vezë marinate</div>
+          <div class="item-footer">
+            <div class="item-price">1,300 L</div>
+            <div class="item-tags"><span class="tag tag-hot">🔥 I nxehtë</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="menu-item">
+        <div class="item-emoji">🌶</div>
+        <div class="item-body">
+          <div class="item-name">Spicy Miso Ramen</div>
+          <div class="item-desc">Pastë miso, salcë spicy, tofu, fidanë, kërpudha shiitake</div>
+          <div class="item-footer">
+            <div class="item-price">1,350 L</div>
+            <div class="item-tags"><span class="tag tag-spicy">🌶 Pikante</span><span class="tag tag-veg">🌿 Vegjetarian</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="menu-item">
+        <div class="item-emoji">🐟</div>
+        <div class="item-body">
+          <div class="item-name">Seafood Ramen</div>
+          <div class="item-desc">Lëng deti, salmon, karkalec, midhe, fidanë, nori</div>
+          <div class="item-footer">
+            <div class="item-price">1,600 L</div>
+            <div class="item-tags"><span class="tag tag-new">✨ I ri</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GYOZA -->
+  <div class="menu-category" id="gyoza">
+    <div class="cat-photo">
+      <img src="https://images.unsplash.com/photo-1496116218417-1a781b1c416c?w=1200&q=80" alt="Gyoza" loading="lazy">
+      <div class="cat-photo-label">Gyoza & Karaage</div>
+    </div>
+    <div class="cat-header">
+      <div class="cat-emoji">🥟</div>
+      <div class="cat-info">
+        <div class="cat-name">Gyoza & Karaage</div>
+        <div class="cat-desc">Pjata anësore dhe hapers japoneze</div>
+      </div>
+    </div>
+    <div class="items-grid">
+      <div class="menu-item">
+        <div class="item-emoji">🥟</div>
+        <div class="item-body">
+          <div class="item-name">Gyoza Derri</div>
+          <div class="item-desc">Petulla me mish derri, xhenxhefil, hudër, salcë ponzu • 6 copë</div>
+          <div class="item-footer">
+            <div class="item-price">800 L</div>
+            <div class="item-tags"><span class="tag tag-popular">❤️ Popullor</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="menu-item">
+        <div class="item-emoji">🥬</div>
+        <div class="item-body">
+          <div class="item-name">Gyoza Vegjetarian</div>
+          <div class="item-desc">Tofu, kërpudha, lakër, karotë • 6 copë</div>
+          <div class="item-footer">
+            <div class="item-price">750 L</div>
+            <div class="item-tags"><span class="tag tag-veg">🌿 Vegjetarian</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="menu-item">
+        <div class="item-emoji">🍗</div>
+        <div class="item-body">
+          <div class="item-name">Karaage — Pule Japoneze</div>
+          <div class="item-desc">Pule e skuqur me marinate soje e sake, mayonezë japoneze • 6 copë</div>
+          <div class="item-footer">
+            <div class="item-price">950 L</div>
+            <div class="item-tags"><span class="tag tag-popular">❤️ Popullor</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="menu-item">
+        <div class="item-emoji">🍢</div>
+        <div class="item-body">
+          <div class="item-name">Edamame</div>
+          <div class="item-desc">Fasule soje e zier me kripë deti dhe vaj susami</div>
+          <div class="item-footer">
+            <div class="item-price">500 L</div>
+            <div class="item-tags"><span class="tag tag-veg">🌿 Vegjetarian</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="menu-item">
+        <div class="item-emoji">🌊</div>
+        <div class="item-body">
+          <div class="item-name">Miso Soup</div>
+          <div class="item-desc">Supë miso tradicionale me tofu, wakame, qepë</div>
+          <div class="item-footer">
+            <div class="item-price">400 L</div>
+            <div class="item-tags"><span class="tag tag-veg">🌿 Vegjetarian</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="menu-item">
+        <div class="item-emoji">🧅</div>
+        <div class="item-body">
+          <div class="item-name">Agedashi Tofu</div>
+          <div class="item-desc">Tofu i skuqur lehtë, lëng dashi, daikon, xhenxhefil</div>
+          <div class="item-footer">
+            <div class="item-price">700 L</div>
+            <div class="item-tags"><span class="tag tag-veg">🌿 Vegjetarian</span><span class="tag tag-new">✨ I ri</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SETS -->
+  <div class="menu-category" id="sets">
+    <div class="cat-header">
+      <div class="cat-emoji">🎁</div>
+      <div class="cat-info">
+        <div class="cat-name">Setet Speciale</div>
+        <div class="cat-desc">Kombinime të kursyera — ideale për dy persona ose grupe</div>
+      </div>
+    </div>
+    <div class="sets-grid">
+      <div class="set-card" data-emoji="🌀">
+        <div class="set-badge">❤️ Më i Shitur</div>
+        <div class="set-name">Set Sakura</div>
+        <div class="set-includes">California Roll (8 copë) + Salmon Maki (6 copë) + Edamame + 2 Miso Soup</div>
+        <div class="set-footer">
+          <div class="set-price">2,500 L</div>
+          <div class="set-pieces">22 copë gjithsej</div>
+        </div>
+      </div>
+      <div class="set-card" data-emoji="🍣">
+        <div class="set-badge">👫 Për 2 Persona</div>
+        <div class="set-name">Set Romantik</div>
+        <div class="set-includes">Rainbow Roll (8) + Salmon Sashimi (5) + Gyoza (6) + 2 pije japoneze</div>
+        <div class="set-footer">
+          <div class="set-price">3,800 L</div>
+          <div class="set-pieces">Kursim 15%</div>
+        </div>
+      </div>
+      <div class="set-card" data-emoji="⭐">
+        <div class="set-badge">👑 Premium</div>
+        <div class="set-name">Set Kaiseki</div>
+        <div class="set-includes">Sashimi Deluxe + Spicy Salmon Roll + Nigiri Miks (8) + Ramen + Dessert</div>
+        <div class="set-footer">
+          <div class="set-price">5,500 L</div>
+          <div class="set-pieces">Per person</div>
+        </div>
+      </div>
+      <div class="set-card" data-emoji="🌿">
+        <div class="set-badge">🌿 Vegjetarian</div>
+        <div class="set-name">Set Fuji</div>
+        <div class="set-includes">Avocado Maki (6) + Veggie Temaki + Gyoza Veg (6) + Edamame + Miso</div>
+        <div class="set-footer">
+          <div class="set-price">2,200 L</div>
+          <div class="set-pieces">100% vegjetarian</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DESSERTS -->
+  <div class="menu-category" id="desserts">
+    <div class="cat-photo">
+      <img src="https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=1200&q=80" alt="Desserts" loading="lazy">
+      <div class="cat-photo-label">Ëmbëlsira Japoneze</div>
+    </div>
+    <div class="cat-header">
+      <div class="cat-emoji">🍡</div>
+      <div class="cat-info">
+        <div class="cat-name">Ëmbëlsira Japoneze</div>
+        <div class="cat-desc">Mbyll vaktit tuaj me shijë tradicionale japoneze</div>
+      </div>
+    </div>
+    <div class="items-grid">
+      <div class="menu-item">
+        <div class="item-emoji">🍡</div>
+        <div class="item-body">
+          <div class="item-name">Mochi Ice Cream</div>
+          <div class="item-desc">Akullore brenda brumë orizi — Matcha, Mango, Strawberry • 3 copë</div>
+          <div class="item-footer">
+            <div class="item-price">700 L</div>
+            <div class="item-tags"><span class="tag tag-popular">❤️ Popullor</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="menu-item">
+        <div class="item-emoji">🍵</div>
+        <div class="item-body">
+          <div class="item-name">Matcha Tiramisu</div>
+          <div class="item-desc">Tiramisu me çaj matcha japonez, mascarpone, kakao</div>
+          <div class="item-footer">
+            <div class="item-price">800 L</div>
+            <div class="item-tags"><span class="tag tag-new">✨ I ri</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="menu-item">
+        <div class="item-emoji">🍮</div>
+        <div class="item-body">
+          <div class="item-name">Dorayaki</div>
+          <div class="item-desc">Petullat japoneze me pastë anko (fasule të kuqe) — 2 copë</div>
+          <div class="item-footer">
+            <div class="item-price">550 L</div>
+            <div class="item-tags"><span class="tag tag-veg">🌿 Vegjetarian</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="menu-item">
+        <div class="item-emoji">🍨</div>
+        <div class="item-body">
+          <div class="item-name">Akullore Matcha</div>
+          <div class="item-desc">Akullore artizanale çaj jeshil japonez, kunjuza mochi</div>
+          <div class="item-footer">
+            <div class="item-price">600 L</div>
+            <div class="item-tags"><span class="tag tag-popular">❤️ Popullor</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DRINKS -->
+  <div class="menu-category" id="drinks">
+    <div class="cat-header">
+      <div class="cat-emoji">🍵</div>
+      <div class="cat-info">
+        <div class="cat-name">Pije</div>
+        <div class="cat-desc">Çaje japoneze, sake, birra dhe shumë më tepër</div>
+      </div>
+    </div>
+    <div class="drinks-grid">
+      <div class="drink-item">
+        <div class="drink-emoji">🍵</div>
+        <div>
+          <div class="drink-name">Çaj Matcha</div>
+          <div class="drink-detail">Nxehtë ose i ftohtë</div>
+          <div class="drink-price">450 L</div>
+        </div>
+      </div>
+      <div class="drink-item">
+        <div class="drink-emoji">🫖</div>
+        <div>
+          <div class="drink-name">Çaj Sencha</div>
+          <div class="drink-detail">Çaj jeshil japonez tradicional</div>
+          <div class="drink-price">400 L</div>
+        </div>
+      </div>
+      <div class="drink-item">
+        <div class="drink-emoji">🍶</div>
+        <div>
+          <div class="drink-name">Sake</div>
+          <div class="drink-detail">Alkool orizi japonez — 150ml</div>
+          <div class="drink-price">900 L</div>
+        </div>
+      </div>
+      <div class="drink-item">
+        <div class="drink-emoji">🍺</div>
+        <div>
+          <div class="drink-name">Birra Sapporo</div>
+          <div class="drink-detail">Birra japoneze klasike</div>
+          <div class="drink-price">600 L</div>
+        </div>
+      </div>
+      <div class="drink-item">
+        <div class="drink-emoji">🥤</div>
+        <div>
+          <div class="drink-name">Ramune</div>
+          <div class="drink-detail">Pije freskuese japoneze me topa</div>
+          <div class="drink-price">500 L</div>
+        </div>
+      </div>
+      <div class="drink-item">
+        <div class="drink-emoji">🧃</div>
+        <div>
+          <div class="drink-name">Yuzu Lemonadë</div>
+          <div class="drink-detail">Lëng citrus japonez, i ftohtë</div>
+          <div class="drink-price">550 L</div>
+        </div>
+      </div>
+      <div class="drink-item">
+        <div class="drink-emoji">💧</div>
+        <div>
+          <div class="drink-name">Ujë Mineral</div>
+          <div class="drink-detail">500ml</div>
+          <div class="drink-price">200 L</div>
+        </div>
+      </div>
+      <div class="drink-item">
+        <div class="drink-emoji">🥛</div>
+        <div>
+          <div class="drink-name">Matcha Latte</div>
+          <div class="drink-detail">Matcha me qumësht avullues</div>
+          <div class="drink-price">600 L</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ALLERGY NOTE -->
+  <div class="allergy-note">
+    ⚠️ <strong>Shënim Alergjish:</strong> Pjatat tona mund të përmbajnë gluten, soje, peshk, krustaqe dhe vezë. Nëse keni alergjira specifike, ju lutem informoni stafin tonë para porosisë. Çmimet janë në Lekë shqiptare dhe përfshijnë TVSH-në.
+  </div>
+
+</div>
+
+<!-- WA FLOAT -->
+<a style="position:fixed;bottom:24px;right:20px;z-index:200;width:56px;height:56px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(37,211,102,0.35);text-decoration:none;transition:transform 0.2s,box-shadow 0.2s;" 
+   href="https://wa.me/355XXXXXXXXX?text=Pershendetje%20Sakura%20Sushi!" target="_blank"
+   onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
+  <svg viewBox="0 0 24 24" fill="white" width="30" height="30">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+    <path d="M12 0C5.373 0 0 5.373 0 12c0 2.117.554 4.103 1.523 5.83L0 24l6.338-1.502A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.007-1.367l-.36-.213-3.727.883.937-3.628-.234-.373A9.78 9.78 0 012.182 12c0-5.42 4.398-9.818 9.818-9.818 5.42 0 9.818 4.398 9.818 9.818 0 5.42-4.398 9.818-9.818 9.818z"/>
+  </svg>
+</a>
+
+<script>
+  // Active tab highlight on scroll
+  const tabs = document.querySelectorAll('.cat-tab');
+  const sections = document.querySelectorAll('.menu-category');
+
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const id = e.target.id;
+        tabs.forEach(t => {
+          t.classList.toggle('active', t.getAttribute('href') === '#' + id);
+        });
+        // Scroll active tab into view
+        const activeTab = document.querySelector('.cat-tab.active');
+        if (activeTab) {
+          activeTab.scrollIntoView({ inline: 'center', behavior: 'smooth', block: 'nearest' });
+        }
+      }
+    });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+
+  sections.forEach(s => obs.observe(s));
+
+  // Smooth click tabs
+  tabs.forEach(tab => {
+    tab.addEventListener('click', function(e) {
+      tabs.forEach(t => t.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>
